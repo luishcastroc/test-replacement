@@ -1,8 +1,9 @@
 /// <reference types="vitest" />
 
 import analog from '@analogjs/platform';
-import { defineConfig, Plugin, splitVendorChunkPlugin } from 'vite';
+import { defineConfig, splitVendorChunkPlugin } from 'vite';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import replaceFiles from '@nx/vite/plugins/rollup-replace-files.plugin';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -12,7 +13,17 @@ export default defineConfig(({ mode }) => {
     build: {
       target: ['es2020'],
     },
-    plugins: [analog(), nxViteTsPaths(), splitVendorChunkPlugin()],
+    plugins: [
+      analog(),
+      nxViteTsPaths(),
+      splitVendorChunkPlugin(),
+      replaceFiles([
+        {
+          replace: 'src/environment/environment.ts',
+          with: 'src/environment/environment.development.ts',
+        },
+      ]),
+    ],
     test: {
       globals: true,
       environment: 'jsdom',

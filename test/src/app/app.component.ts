@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { environment } from '../environment/environment';
 
 @Component({
   selector: 'test-root',
@@ -7,4 +8,9 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   template: ` <router-outlet></router-outlet> `,
 })
-export class AppComponent {}
+export class AppComponent implements OnInit {
+  ngOnInit() {
+    const env = environment.baseUrl;
+    console.log('AppComponent: ', env);
+  }
+}
